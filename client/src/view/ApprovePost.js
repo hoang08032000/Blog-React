@@ -2,18 +2,17 @@ import React, { useContext, useEffect } from "react";
 import { PostContext } from "../Context/PostContext";
 import Post from "../Component/post/Post";
 
-const Home = () => {
-    //Context
+const ApprovePost = () => {
     const {
         postState: { posts },
-        getPosts,
+        getPostsFalse,
     } = useContext(PostContext);
 
     // Start get all posts
     useEffect(() => {
-        getPosts();
+        getPostsFalse();
     }, []);
-
+    
     return (
         <div>
             {posts.map((post) => {
@@ -23,4 +22,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default ApprovePost;

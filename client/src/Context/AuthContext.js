@@ -14,6 +14,7 @@ const AuthContextProvider = ({ children }) => {
     const [authState, dispatch] = useReducer(AuthReducer, {
         isAuthenticated: false,
         user: null,
+        role: "USER",
     });
 
     // Authenticate user
@@ -30,6 +31,7 @@ const AuthContextProvider = ({ children }) => {
                     payload: {
                         isAuthenticated: true,
                         user: res.data.user,
+                        role: res.data.user.role,
                     },
                 });
             }
@@ -38,7 +40,7 @@ const AuthContextProvider = ({ children }) => {
             setAuthToken(null);
             dispatch({
                 type: SET_AUTH,
-                payload: { isAuthenticated: false, user: null },
+                payload: { isAuthenticated: false, user: null, role: "USER" },
             });
         }
     };
@@ -85,7 +87,7 @@ const AuthContextProvider = ({ children }) => {
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
         dispatch({
             type: SET_AUTH,
-            payload: { isAuthenticated: false, user: null },
+            payload: { isAuthenticated: false, user: null, role: "USER" },
         });
     };
 

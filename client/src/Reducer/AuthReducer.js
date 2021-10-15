@@ -3,7 +3,7 @@ import { SET_AUTH } from "./Types";
 export const AuthReducer = (state, action) => {
     const {
         type,
-        payload: { isAuthenticated, user },
+        payload: { isAuthenticated, user, role },
     } = action;
 
     switch (type) {
@@ -12,6 +12,7 @@ export const AuthReducer = (state, action) => {
                 ...state,
                 isAuthenticated,
                 user,
+                role,
             };
 
         default:

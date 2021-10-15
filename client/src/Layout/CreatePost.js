@@ -7,7 +7,10 @@ const CreatePost = () => {
 
     const { createPost } = useContext(PostContext);
 
-    const [newPost, setNewPost] = useState("");
+    const [newPost, setNewPost] = useState({
+        title: "",
+        content: "",
+    });
 
     const { title, content } = newPost;
 
@@ -32,7 +35,7 @@ const CreatePost = () => {
             setAlert({ type: "success", message: addData.message });
             setTimeout(() => setAlert(null), 5000);
 
-            setNewPost({ title: "", content: "" });
+            setNewPost({ title: " ", content: " " });
         } catch (error) {
             console.log(error);
         }

@@ -12,12 +12,12 @@ GET http://localhost:3000/api/auth
 
 ###
 
-POST http://localhost:3000/api/auth/login 
+POST http://localhost:3000/api/admin/
 Content-Type: application/json
 
 {
-    "username" : "hoangtoviet1",
-    "password" : "08032000"
+    "username" : "admin",
+    "password" : "admin"
 }
 
 ###
@@ -29,6 +29,14 @@ Authorization: b eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTYzYzNjND
     "title": "react",
     "content": "tesst2"
 }
+
+###
+PUT  http://localhost:3000/api/post/61679e500a699bf49de538fe
+Authorization: b eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTYzYzNjNDRhZDNjZDcxZjMwOTZkNmQiLCJpYXQiOjE2MzM5NzA4Mjh9.DXUT5-qP9eU2yUtSlG1EAbwKAY3wyTyktlKiaj3F2Ig
+
+### 
+DELETE http://localhost:3000/api/post/616909da2d73bd996149ad27
+Authorization: b eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTYzYzNjNDRhZDNjZDcxZjMwOTZkNmQiLCJpYXQiOjE2MzM5NzA4Mjh9.DXUT5-qP9eU2yUtSlG1EAbwKAY3wyTyktlKiaj3F2Ig
 
 ###
 GET http://localhost:3000/api/post

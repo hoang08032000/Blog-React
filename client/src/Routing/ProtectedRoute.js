@@ -8,26 +8,34 @@ import CreatePost from "../Layout/CreatePost";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
     const {
-        authState: { isAuthenticated },
+        authState: { isAuthenticated, role },
     } = useContext(AuthContext);
     // if(isAuthenticated)
 
     return (
         <Route
             {...rest}
-            render={(props) =>
-                isAuthenticated ? (
-                    <>
-                        <NavBar />
-                        <CreatePost />
-                        <Component {...rest} {...props} />{" "}
-                    </>
-                ) : (
-                    <Redirect to="/login" />
-                )
-            }
+            render={(props) => {
+                if (isAuthenticated && role === "USER") {
+                    return (
+                        <>
+                            <NavBar />
+                            <CreatePost />
+                            <Component {...rest} {...props} />{" "}
+                        </>
+                    );
+                } else if (!isAuthenticated) {
+                    return <Redirect to="/login" />;
+                } else if (isAuthenticated && role === "ADMIN") {
+                    return (
+                        <>
+                            <NavBar />
+                            <Component {...rest} {...props} />
+                        </>
+                    );
+                }
+            }}
         />
     );
 };
-
 export default ProtectedRoute;

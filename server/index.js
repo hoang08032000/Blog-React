@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const authRouter = require("./routes/auth");
 const postRouter = require("./routes/post");
+const adminRouter = require("./routes/admin");
 
 // Connect MongoDB
 const connectDB = async () => {
@@ -29,6 +30,7 @@ app.use(cors());
 
 app.use("/api/auth", authRouter);
 app.use("/api/post", postRouter);
+app.use("/api/admin", adminRouter);
 
 const PORT = 3000;
 
