@@ -10,7 +10,6 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     const {
         authState: { isAuthenticated, role },
     } = useContext(AuthContext);
-    // if(isAuthenticated)
 
     return (
         <Route

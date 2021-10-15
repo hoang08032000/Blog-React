@@ -7,10 +7,15 @@ import setAuthToken from "../utils/setAuthToken";
 
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./Contansts";
 import { SET_AUTH } from "../Reducer/Types";
+// import { useCookies } from "react-cookie";
+import Cookies from "js-cookie";
 
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
+    // const [cookie, setCookie, removeCookie] = useCookies(["auth"]);
+    Cookies.set("token", "");
+
     const [authState, dispatch] = useReducer(AuthReducer, {
         isAuthenticated: false,
         user: null,
@@ -19,8 +24,8 @@ const AuthContextProvider = ({ children }) => {
 
     // Authenticate user
     const loadUser = async () => {
-        if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
-            setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
+        if (Cookies.get("token")) {
+            setAuthToken(Cookies.get("token"));
         }
 
         try {
@@ -36,7 +41,9 @@ const AuthContextProvider = ({ children }) => {
                 });
             }
         } catch (error) {
-            localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+            // localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+            // removeCookie("auth");
+            Cookies.remove("token");
             setAuthToken(null);
             dispatch({
                 type: SET_AUTH,
@@ -52,10 +59,12 @@ const AuthContextProvider = ({ children }) => {
             const res = await axios.post(`${apiUrl}/auth/login`, userForm);
 
             if (res.data.success) {
-                localStorage.setItem(
-                    LOCAL_STORAGE_TOKEN_NAME,
-                    res.data.accessToken
-                );
+                // localStorage.setItem(
+                //     LOCAL_STORAGE_TOKEN_NAME,
+                //     res.data.accessToken
+                // );
+
+                Cookies.set("token", res.data.accessToken);
             }
             await loadUser();
             return res.data;
@@ -70,10 +79,11 @@ const AuthContextProvider = ({ children }) => {
             const res = await axios.post(`${apiUrl}/auth/register`, userForm);
 
             if (res.data.success) {
-                localStorage.setItem(
-                    LOCAL_STORAGE_TOKEN_NAME,
-                    res.data.accessToken
-                );
+                // localStorage.setItem(
+                //     LOCAL_STORAGE_TOKEN_NAME,
+                //     res.data.accessToken
+                // );
+                Cookies.set("token", res.data.accessToken)
             }
             await loadUser();
             return res.data;
@@ -84,14 +94,21 @@ const AuthContextProvider = ({ children }) => {
     };
 
     const logoutUser = () => {
-        localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+        // localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+        Cookies.remove("token")
         dispatch({
             type: SET_AUTH,
             payload: { isAuthenticated: false, user: null, role: "USER" },
         });
     };
 
-    const AuthContextData = { loginUser, registerUser, authState, logoutUser };
+    const AuthContextData = {
+        loginUser,
+        registerUser,
+        authState,
+        logoutUser,
+        // cookie,
+    };
     return (
         <AuthContext.Provider value={AuthContextData}>
             {children}
